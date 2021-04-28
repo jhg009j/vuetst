@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <fcpn></fcpn>
+</div>
+
+<template id="soncpn">
+  <div>
+    <h1>我是子组件</h1>
+    {{name}}
+  </div>
+</template>
+
+<template id="fathercpn">
+  <div>
+    <h1>我是父组件</h1>
+    {{name}}
+    <scpn></scpn>
+  </div>
+</template>
+
+
+<script src="../js/vue.js"></script>
+
+<script>
+// 注册两个局部组件
+
+  const scpn = {
+    template:'#soncpn',
+    data(){
+      return {
+        name:'soncpn'
+      }
+    }
+  }
+
+  const fcpn = {
+    template: '#fathercpn',
+    data() {
+      return {
+        name: 'father'
+      };
+    },
+    components: {
+      scpn
+    }
+  }
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！'
+    },
+    components:{
+      fcpn
+    }
+
+  })
+
+</script>
+
+</body>
+</html>

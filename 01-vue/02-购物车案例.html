@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .active {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <h1 v-for="(name,index) in names" :key="name"
+      :class="{active:isActive===index}"
+      @click="changeColor(index)">
+    {{name}}-{{index}}
+  </h1>
+  <div v-if="books.length">
+    <table>
+      <thead>
+      <tr>
+        <td></td>
+        <td>书id</td>
+        <td>书名</td>
+        <td>价格</td>
+        <td>数量</td>
+        <td>操作</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(book,index) in books" :key="book.name">
+        <td></td>
+        <td>{{book.id}}</td>
+        <td>{{book.name}}</td>
+        <td>{{book.price|getPrice}}</td>
+        <td>
+          <button @click="incre(index)">+</button>
+          {{book.count}}
+          <button @click="decre(index)" :disabled="book.count<=0">-</button>
+        </td>
+        <td>
+          <button @click="move(index)">移除</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div>总价格：{{totalPrice|getPrice}}</div>
+  </div>
+
+  <div v-else>
+    购物车为空
+  </div>
+
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！',
+      names: ['aa', 'bb', 'cc', 'dd'],
+      books: [
+        {
+          id: 1,
+          name: '111',
+          price: 90,
+          count: 1
+        },
+        {
+          id: 2,
+          name: '222',
+          price: 80,
+          count: 1
+        },
+        {
+          id: 3,
+          name: '333',
+          price: 70,
+          count: 1
+        },
+      ],
+      isActive: 0,
+      count: 1,
+    },
+    methods: {
+      changeColor(index) {
+        this.isActive = index
+      },
+      incre(index) {
+        this.books[index].count++
+      },
+      decre(index) {
+        this.books[index].count--
+
+      },
+      move(index) {
+        this.books.splice(index, 1)
+      }
+
+    },
+    filters: {
+      getPrice(price) {
+        return '￥' + price.toFixed(2)
+      }
+    },
+    computed: {
+      // totalPrice() {
+      //   let price = 0
+      //   for (let book of this.books) {
+      //     price += book.price*book.count
+      //   }
+      //   return price
+      // }
+
+      //reduce map filter
+      totalPrice() {
+        return this.books.reduce(function (preValue, n) {
+          return preValue + n.price * n.count
+        }, 0)
+      }
+    }
+
+  })
+
+</script>
+
+</body>
+</html>

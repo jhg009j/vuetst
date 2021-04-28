@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <fcpn></fcpn>
+</div>
+
+<template id="fathercpn">
+  <div>
+    <h1>我是父组件</h1>
+    <scpn :smovies="movies" :smessage="message" :sinfo="info"></scpn>
+  </div>
+</template>
+
+<template id="soncpn">
+  <div>
+    <h1>我是子组件
+      <ul>
+        <li v-for="item in smovies">
+          {{item}}
+          {{smessage}}
+        </li>
+      </ul>
+
+      {{sinfo.name}}
+      {{sinfo.age}}
+      {{sinfo.high}}
+    </h1>
+  </div>
+</template>
+
+
+<script src="../js/vue.js"></script>
+<script>
+// 1. 首先在子组件中设置变量。该变量用于接收父组件传来的数据
+// 2. 设置完变量后，在该子组件的标签处使用v-bind，绑定子组件变量，将父组件的数据赋给子组件变量
+// 3. 在子组件的template里使用变量
+// 4. 若设置了default，可使用默认数据，而不需要父组件的数据
+// 5. 标注required的变量，必须在标签处赋值
+
+  const scpn = {
+    template: '#soncpn',
+    props:{
+      smovies:{
+        type:Array,
+        default(){
+          return []
+        }
+      },
+      smessage:{
+        type:String,
+        default:'aaaa',
+        required:true
+      },
+      sinfo:{
+        type:Object,
+        default(){
+          return {}
+        }
+      }
+    }
+
+  }
+  const fcpn = {
+    template: '#fathercpn',
+    components: {
+      scpn
+    },
+    data(){
+      return {
+        movies:['aa','bb','vv'],
+        message: '父传子',
+        info:{
+          name:'wang',
+          age:18,
+          high:1.88
+        }
+      }
+    }
+
+  }
+
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！'
+    },
+    components: {
+      fcpn
+    }
+  })
+
+</script>
+
+</body>
+</html>

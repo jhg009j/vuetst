@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app" @click="divClick">
+  <h1 v-show="isTrue">{{a}}</h1>
+  <h1 v-if="isTrue">{{a}}</h1>
+  <h1 @click.prevent.stop="h1Click">{{message}}</h1>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+
+  const app = new Vue({
+    el: '#app',
+    data:{
+      message:'你好！',
+      isTrue:true,
+      a:'222'
+    },
+    methods:{
+      divClick(){
+        console.log('div');
+      },
+      h1Click(){
+        console.log('h1');
+      }
+    }
+  })
+
+</script>
+
+</body>
+</html>

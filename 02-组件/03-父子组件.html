@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <father></father>
+  <lfcpn></lfcpn>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+  // ***全局父子组件***
+  // 子
+  const scpn = Vue.component('son', {
+    template: `
+      <div>
+        <h1>我是子组件</h1>
+      </div>
+    `
+  })
+  // 父
+  const pcpn = Vue.component('father', {
+    template: `
+      <div>
+      <h1>我是父组件</h1>
+      <son></son>
+      </div>
+    `,
+    components: {
+      scpn
+    }
+  })
+
+  // ***局部父子组件***
+  // 子
+  const lscpn = {
+    template: `
+      <div>
+        <h1>我是局部子组件</h1>
+      </div>`
+  }
+// 父
+  const lfcpn = {
+    template:`
+      <div>
+        <h1>我是局部父组件</h1>
+      <lscpn></lscpn>
+      </div>`,
+    components:{
+      lscpn
+    }
+  }
+// 父组件注册
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！'
+    },
+    components: {
+      lfcpn
+    }
+  })
+
+</script>
+
+</body>
+</html>

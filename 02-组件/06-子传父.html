@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <fcpn></fcpn>
+</div>
+
+
+<template id="soncpn">
+  <div>
+    ********
+    <h1>我是子组件</h1>
+    <button v-for="(i,index) in info" @click="sonclick(i,index)">{{i}}</button>
+  </div>
+</template>
+
+<template id="fathercpn">
+  <div>
+    <h1>我是父组件</h1>
+    <scpn @btnclick="fclick"></scpn>
+  </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+  // 将子组件的点击事件放到父组件中处理
+  // 1. 在子组件设置方法
+  // 2. 方法内设置 this.$emit(第一个参数是该方法的标签名，之后的参数是传到该方法内的参数)
+  // 3. 在父组件中设置方法
+  // 4. 在子组件标签处自定义方法：@方法标签名="父组件的方法名"，不用传参，参数会自动传过去
+
+  const scpn = {
+    template: '#soncpn',
+    data() {
+      return {
+        info: {
+          a: '手机资讯',
+          b: '电器资讯',
+          c: '财经资讯'
+        }
+      }
+    },
+    methods: {
+      sonclick(i,index) {
+        this.$emit('btnclick',i,index)
+      }
+    }
+  }
+
+  const fcpn = {
+    template: '#fathercpn',
+    data() {
+      return {
+        name: 'father'
+      };
+    },
+    components: {
+      scpn
+    },
+    methods: {
+      fclick(i,index) {
+        console.log('fclick');
+        console.log(i);
+        console.log(index);
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！'
+    },
+    components: {
+      fcpn
+    }
+  })
+
+</script>
+
+</body>
+</html>
