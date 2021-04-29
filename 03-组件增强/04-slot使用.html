@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<!--2.6起，具名slot和作用域slot被废弃，统一改为v-slot，并且搭配<template>使用-->
+<!--在向具名插槽提供内容的时候，我们可以在一个 <template> 元素上使用 v-slot 指令-->
+<!--作用域插槽的目的：父组件替换插槽的标签，但内容来自于子组件-->
+<!--作用域插槽的场景：当使用子组件数据时，想展示其中的A数据，而不是默认的B数据，或是改变数据的展示方式-->
+<!--v-slot简写：#-->
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <!--  <soncpn><span slot="aaa">jjj</span></soncpn>-->
+  <soncpn>
+    <template v-slot:aaa><span>改了</span></template>
+    <template v-slot:bbb><span>改了</span></template>
+    <!--    在父组件中，v-slot 定义我们提供的插槽 prop (即aaa) 的名字，随后可以使用该prop对应的数据-->
+    <!--    <template v-slot:search="find">{{find.aaa[2]}}</template>-->
+    <template v-slot:search="find">
+      <!--      想改变默认模板-->
+      <!--      <span v-for="item in find.aaa">{{item}}</span>-->
+      <span>{{find.aaa.join(' - ')}}</span>
+    </template>
+  </soncpn>
+
+  <soncpn>
+    <template #search="high">
+      <div>
+        <span>{{high.aaa.join(' * ')}}</span>
+      </div>
+
+    </template>
+  </soncpn>
+
+</div>
+
+<template id="soncpn">
+  <div>
+    <h2>我是子组件</h2>
+
+    <slot name="aaa">
+      <button>案例</button>
+    </slot>
+
+    <slot name="bbb">中间</slot>
+
+    <!--    aaa，是绑定在 <slot> 元素上的 attribute，被称为插槽 prop，info是子组件的数据-->
+    <slot :aaa="info" name="search">
+      <!--      ul>li 是默认的模板-->
+      <ul>
+        <li v-for="item in info">{{item}}</li>
+      </ul>
+      <!--      {{info[1]}}-->
+    </slot>
+
+  </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+  // 组件有自己的作用域
+  const soncpn = {
+    template: '#soncpn',
+    data() {
+      return {
+        isShow: false,
+        info: ['苹果', '梨子', '荔枝'],
+        message: 'jjjj'
+      }
+    },
+
+  }
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！',
+      isShow: true
+    },
+    components: {
+      soncpn
+    },
+
+  })
+
+</script>
+
+</body>
+</html>

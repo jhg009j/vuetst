@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <cpn ref="aaa"></cpn>
+  <cpn ref="bbb"></cpn>
+  <cpn ref="ccc"></cpn>
+  <button @click="btnClick">示例</button>
+</div>
+
+<template id="soncpn">
+  <div>
+    <h2>我是子组件</h2>
+  </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+  const cpn = {
+    template:'#soncpn',
+    data(){
+      return {
+        name:'aaaa',
+        info:{
+          high:1.88,
+          age:18,
+        }
+      }
+    },
+    methods:{
+      showMessage(){
+        console.log('showMessage');
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: '#app',
+    data:{
+      message:'你好！',
+      childata:this.children
+    },
+    components:{
+      cpn
+    },
+    methods:{
+      btnClick(){
+        console.log(this.$refs);
+      }
+    }
+  })
+
+</script>
+
+</body>
+</html>

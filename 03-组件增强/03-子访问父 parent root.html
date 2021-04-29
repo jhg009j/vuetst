@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <cpn></cpn>
+</div>
+
+<template id="soncpn">
+  <div>
+    <h2>我是子组件</h2>
+    <button @click="btnClick">案例1</button>
+    <ccpn></ccpn>
+  </div>
+</template>
+
+<template id="ccpn">
+  <div>
+    <h2>我是孙组件</h2>
+    <button @click="ccpnClick">案例2</button>
+  </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+
+  const ccpn = {
+    template: '#ccpn',
+    methods: {
+      ccpnClick() {
+        console.log(this.$parent.message);
+        console.log(this.$root.message);
+      }
+    }
+  }
+
+  const cpn = {
+    template: '#soncpn',
+    data() {
+      return {
+        message: 'aaaa',
+        info: {
+          high: 1.88,
+          age: 18,
+        }
+      }
+    },
+    methods: {
+      btnClick() {
+        console.log(this.$parent.message);
+      }
+    },
+    components: {
+      ccpn
+    }
+  }
+
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！'
+    },
+    components: {
+      cpn
+    }
+  })
+
+</script>
+
+</body>
+</html>

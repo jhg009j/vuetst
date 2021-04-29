@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>{{message}}</h1>
+  <soncpn :number1="num1" :number2="num2" @dnum1="num1change" @dnum2="num2change"></soncpn>
+</div>
+
+
+<template id="soncpn">
+  <div>
+    <h2>{{number1}}</h2>
+    <input type="text" :value="dnumber1" @input="dnumber1=$event.target.value">
+    <h2>{{number2}}</h2>
+    <input type="text" :value="dnumber2" @input="dnumber2=$event.target.value">
+  </div>
+</template>
+
+
+<script src="../js/vue.js"></script>
+<script>
+  const soncpn = {
+    template: '#soncpn',
+    props: {
+      number1: Number,
+      number2: Number
+    },
+    data() {
+      return {
+        dnumber1: this.number1,
+        dnumber2: this.number2
+      }
+    },
+    // methods: {
+    //   num1(event){
+    //     this.dnumber1=event.target.value
+    //     this.$emit('dnum1',parseFloat(this.dnumber1))
+    //
+    //     this.dnumber2 = this.dnumber1*100
+    //     this.$emit('dnum2',parseFloat(this.dnumber2))
+    //   },
+    //   num2(event){
+    //     this.dnumber2=event.target.value
+    //     this.$emit('dnum2',parseFloat(this.dnumber2))
+    //
+    //     this.dnumber1 = this.dnumber2/100
+    //     this.$emit('dnum1',parseFloat(this.dnumber1))
+    //   }
+    // },
+    watch:{
+      dnumber1(){
+        this.$emit('dnum1',parseFloat(this.dnumber1))
+        this.dnumber2 = this.dnumber1*100
+      },
+      dnumber2(){
+        this.$emit('dnum2',parseFloat(this.dnumber2))
+        this.dnumber1 = this.dnumber2/100
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好！',
+      num1: 1,
+      num2: 0
+    },
+    components: {
+      soncpn
+    },
+    methods: {
+      num1change(dnumber1){
+        this.num1 = dnumber1
+      },
+      num2change(dnumber2){
+        this.num2 = dnumber2
+      }
+    }
+  })
+
+</script>
+
+</body>
+</html>

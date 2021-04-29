@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+
+  <div>
+    <label for="usertext">
+      <input type="text" id="usertext" v-model.trim="message"> 您的输入是：{{message}}
+    </label>
+  </div>
+  <br/>
+
+  <div>
+    <label for="male">
+      <input type="radio" id="male" name="sex" value="男" v-model="sex">男
+    </label>
+    <label for="female">
+      <input type="radio" id="female" name="sex" value="女" v-model="sex">女
+    </label>
+    您的性别是：{{sex}}
+  </div>
+<br/>
+
+  <div>
+    <label for="agree">
+      <input type="checkbox" id="agree" v-model="isAgree">同意协议
+    </label>
+    <button :disabled="!isAgree">下一步</button>
+  </div>
+<br/>
+
+  <div>
+    <label :for="item" v-for="item in names">
+      <input type="checkbox" :id="item" :value="item" v-model="namebox">{{item}}
+    </label>
+    你选的的姓名是：{{namebox}}
+  </div>
+<br/>
+
+  <div>
+    <select name="fruit" id="fruit" v-model="chosefruit">
+      <option :value="f" v-for="f in fruits">{{f}}</option>
+    </select>
+    您选择的水果是：{{chosefruit}}
+  </div>
+<br/>
+
+  <div>
+    <select name="fruit2" id="fruit2" multiple v-model="manyfruit">
+      <option :value="f" v-for="f in fruits">{{f}}</option>
+    </select>
+    您选择的水果有：{{manyfruit}}
+  </div>
+
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '',
+      sex: '女',
+      names: ['aa', 'bb', 'cc', 'dd', 'ff'],
+      isAgree: false,
+      namebox: [],
+      fruits:['苹果','葡萄','香蕉','榴莲'],
+      chosefruit:'苹果',
+      manyfruit:['苹果','香蕉']
+    },
+  })
+
+</script>
+
+</body>
+</html>
